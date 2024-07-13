@@ -1,0 +1,1 @@
+export * from './F_big.png'

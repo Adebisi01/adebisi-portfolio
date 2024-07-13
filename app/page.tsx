@@ -1,113 +1,340 @@
+"use client";
+
+import { ProjectBox } from "@/components";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import gsap from "gsap";
+import {
+  FaFacebookMessenger,
+  FaLinkedin,
+  FaRegCircle,
+  FaStarOfLife,
+  FaWhatsapp,
+} from "react-icons/fa6";
+import { GoDotFill, GoNorthStar } from "react-icons/go";
+import { IoMdMail } from "react-icons/io";
+import { PiPerson } from "react-icons/pi";
+import { TbNorthStar } from "react-icons/tb";
+import { useEffect, useLayoutEffect } from "react";
+import { SiKdenlive } from "react-icons/si";
 import Image from "next/image";
+import Loader from "@/components/Loader";
 
 export default function Home() {
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  }, []);
+  const { contextSafe } = useGSAP();
+  const showSocials = contextSafe(() => {
+    gsap.from(".socials", {
+      opacity: 0,
+      y: 10,
+      stagger: 0.3,
+      duration: 1,
+    });
+  });
+  const scrollToAbout = contextSafe(() => {
+    gsap.to(window, { duration: 2, scrollTo: { y: "#about", offsetY: 50 } });
+  });
+  const scrollToProjects = contextSafe(() => {
+    gsap.to(window, {
+      duration: 2,
+      scrollTo: { y: "#projects_title", offsetY: 50 },
+    });
+  });
+  useGSAP(() => {
+    gsap.to("#circle", {
+      rotateZ: 360,
+      rotateX: 360,
+      duration: 5,
+      repeat: -1,
+    });
+    const tl = gsap.timeline();
+    tl.from(
+      ".hello",
+      {
+        y: 50,
+        duration: 4,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "elastic",
+      },
+      "anime0"
+    );
+    tl.from(
+      "#introduction > h3,#introduction > section > p",
+      {
+        y: 50,
+        duration: 4,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "elastic",
+      },
+      "anime0"
+    );
+
+    tl.from(
+      "#role p",
+      {
+        y: 50,
+        duration: 4,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "elastic",
+      },
+      "anime0"
+    );
+    gsap.from("#projects_title", {
+      x: 10,
+      duration: 0.5,
+      opacity: 0,
+      scrollTrigger: {
+        // scroller: "b",
+        scrub: 0.5,
+        trigger: "#projects_title",
+        // markers: true,
+        start: "top 70%",
+      },
+    });
+    [1, 2, 3, 4, 5].forEach((elem) => {
+      gsap.from(`#projectbox${elem}`, {
+        y: 150,
+        opacity: 0,
+        duration: 3,
+        ease: "elastic",
+        scrollTrigger: {
+          trigger: `#projectbox${elem}`,
+          start: "top bottom",
+          // end: "top top",
+          // scrub: true,
+        },
+      });
+    });
+    gsap.from("#talk", {
+      backgroundImage: "linear-gradient(to left, purple, blue)",
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    });
+    gsap
+      .from(".container_border", {
+        backgroundImage: "linear-gradient(to left, purple, blue )",
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+      })
+      .then(() => {
+        gsap.to(".container_border", {
+          backgroundImage: "linear-gradient(to right, purple, yellow)",
+          duration: 1,
+          repeat: -1,
+          yoyo: true,
+        });
+      });
+    gsap.from(".about", {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      delay: 0.5,
+      stagger: 0.5,
+      scrollTrigger: {
+        trigger: ".about",
+        start: "top 80%",
+        scrub: 0.5,
+      },
+    });
+    gsap.to(".resume", {
+      repeat: -1,
+      x: -500,
+      duration: 10,
+      yoyo: true,
+    });
+  });
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <>
+      {document.readyState === "complete" && (
+        <main className="main bg-gray-950 text-white  min-h-[100svh] ">
+          <div className="p-3">
+            <section className="flex justify-between w-auto items-center">
+              <p className="flex items-center gap-2">
+                <span className="rounded-xl bg-white p-2">
+                  <PiPerson className="text-3xl text-black" />
+                </span>{" "}
+                <span
+                  onClick={() => {
+                    scrollToAbout();
+                  }}
+                  className="text-lg cursor-pointer"
+                >
+                  Adebisi .{" "}
+                  <FaRegCircle
+                    id="circle"
+                    className="inline-block font-extrabold text-xl "
+                  />
+                </span>
+              </p>
+              <button
+                className="animate-bounce"
+                onClick={() => {
+                  scrollToProjects();
+                }}
+              >
+                <SiKdenlive
+                  id="project_button"
+                  className="text-2xl rotate-90  text-purple-700 "
+                />
+              </button>
+            </section>
+            {/* <section className="h-[svh]  ">
+          <Image src="/me_no _bac.png" alt="Adebisi's picture" fill={true} />
+        </section> */}
+            <section>
+              <h1 className="text-9xl pt-28 text-center flex justify-center ">
+                <p className="hello">h</p>
+                <p className="hello">e</p>
+                <p className="hello">l</p>
+                <p className="hello">l</p>
+                <p className="hello">o</p>
+              </h1>
+              <div
+                className=" text-7xl pt-5 text-center introduction"
+                id="introduction"
+              >
+                <h3>I'm</h3>
+                <section className="flex justify-center">
+                  <p>A</p>
+                  <p>d</p>
+                  <p>e</p>
+                  <p>b</p>
+                  <p>i</p>
+                  <p>s</p>
+                  <p>i</p>
+                </section>
+              </div>
+              <div id="role" className="text-5xl pt-5 text-center ">
+                <p>A</p>
+                <p>Full</p>
+                <p>Stack</p>
+                <p>Developer</p>
+              </div>
+            </section>
+            <section>
+              <p className="text-5xl pt-16" id="projects_title">
+                Live & functional projects
+              </p>
+            </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <div
+                  key={num}
+                  id={`projectbox${num}`}
+                  className=" bg-gradient-to-r container_border from-blue-500 via-yellow-400 to-purple-500 px-1 rounded-lg"
+                >
+                  <section className="py-1">
+                    <ProjectBox />
+                  </section>
+                </div>
+              ))}
+            </div>
+            <a
+              target="_blank"
+              href="https://docs.google.com/document/d/16NWCjzTL_Z6QardCY03Mp4PcmhAsrIsAFy3sMrOmV80/edit?usp=sharing"
+              className="flex items-center justify-around"
+            >
+              <button
+                id=""
+                className=" resume text-white py-5 text-xl flex items-center gap-3"
+              >
+                <TbNorthStar /> <GoNorthStar />
+                Check Out My Resume <FaStarOfLife />
+              </button>
+              <button
+                id=""
+                className=" resume text-white py-5 text-xl flex items-center gap-3"
+              >
+                <TbNorthStar /> <GoNorthStar />
+                Check Out My Resume <FaStarOfLife />
+              </button>
+              <button
+                id=""
+                className=" resume text-white py-5 text-xl flex items-center gap-3"
+              >
+                <TbNorthStar /> <GoNorthStar />
+                Check Out My Resume <FaStarOfLife />
+              </button>
+            </a>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            <div className="flex flex-col gap-3 w-auto">
+              <center>
+                <button
+                  type="button"
+                  onClick={() => {
+                    showSocials();
+                  }}
+                  id="talk"
+                  className="bg-gradient-to-r my-2 from-blue-500 to-purple-500 border p-3 w-fit"
+                >
+                  Lets Talk
+                </button>
+              </center>
+              <section className="flex justify-evenly text-5xl ">
+                <a target="_blank" href="https://wa.me/qr/QXQT4FQ75E56I1">
+                  <FaWhatsapp className="socials" />{" "}
+                </a>
+                <FaFacebookMessenger className="socials" />{" "}
+                <a href="mailto:oluwafemiadebisi01@gmail.com">
+                  <IoMdMail className="socials" />
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.linkedin.com/in/oluwafemi-adebisi"
+                >
+                  <FaLinkedin className="socials" />
+                </a>
+              </section>
+            </div>
+            <div id="about" className=" text-center text-white">
+              <h1 className="text-white font-bold  wor text-5xl  py-5">
+                About Me
+              </h1>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+              <p className=" font-light about">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non,
+                illo!
+              </p>
+            </div>
+          </div>
+        </main>
+      )}
+    </>
   );
 }
