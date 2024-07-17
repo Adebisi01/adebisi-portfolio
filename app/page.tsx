@@ -202,7 +202,7 @@ export default function Home() {
                 className=" text-7xl pt-5 text-center introduction"
                 id="introduction"
               >
-                <h3>I'm</h3>
+                <h3>I&apos m</h3>
                 <section className="flex justify-center">
                   <p>A</p>
                   <p>d</p>
